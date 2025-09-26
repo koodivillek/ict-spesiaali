@@ -1,2 +1,3 @@
-# ict-spesiaali
-Kurssiprojekti avoimen lähdekoodin ohjelmistokehityksestä ja Linux-ympäristöstä: NixOS-asennus, ZFS-tiedostojärjestelmä, Samba-tiedostopalvelu ja Jellyfin-mediapalvelin VirtualBoxissa.
+# Harrin Spesiaali Linux Kurssi
+
+Tämä repo sisältää NixOS-asennuksen, ZFS-levynhallinnan ja Jellyfin-palvelimen dokumentaation.
