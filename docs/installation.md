@@ -14,5 +14,7 @@
 ## SSH-yhteys
 - SSH otettiin käyttöön lisäämällä `configuration.nix`-tiedostoon:
   services.openssh.enable = true;
+- VirtualBoxissa Settings -> Network -> Port Forwarding: Protocol: TCP, Host Port: 2222, Guest Port: 22
 - SSH yhdistäminen onnistui windowsin komentokehotteessa:
   ssh -p 2222 käyttäjä@127.0.0.1
+
