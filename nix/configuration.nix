@@ -81,6 +81,23 @@ programs.fish.enable = true; #Kommentoi tämä pois jos menee rikki
  curl
 fish
 ];
+
+
+# Jellyfin mediapalvelin
+
+services.jellyfin.enable = true;
+
+# Portti ja palomuuri
+
+networking.firewall.allowedTCPPorts = [ 8096 ]; # HTTP OLETUSPORTTI JOTEN JELLYFIN NÄKYY
+# OSOITTEESSA http://localhost:8096
+# (Valinnainen: myös HTTPS jos myöhemmin lisäät SSHL:n)
+
+
+
+
+
+
   #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
   #  wget
 
