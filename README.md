@@ -8,3 +8,10 @@ Tavoitteena rakentaa NixOS-ympäristö VirtualBoxissa, ZFS-datapooli, tiedostopa
 - `docs/configuration.md` – tärkeimpien asetusten selitys
 - `docs/usage.md` – käyttöohje palveluille
 - `docs/progress.md` – oppimispäiväkirja ja viikkoraportit
+
+## Käytetyt teknologiat
+- [NixOS](https://nixos.org/) – Linux-distro konfiguraatiopohjaisella hallinnalla  
+- [Jellyfin](https://jellyfin.org/) – avoimen lähdekoodin mediapalvelin  
+- [ZFS](https://openzfs.org/) – redundantti levyjärjestelmä ja tiedostojärjestelmä  
+- [VirtualBox](https://www.virtualbox.org/) – virtualisointi  
+- [Git & GitHub](https://github.com/) – versionhallinta
