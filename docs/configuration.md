@@ -20,10 +20,11 @@ i18n.extraLocaleSettings = {
 };
 ```
 **Asennetut työkalut**
-
+```nix
 environment.systemPackages = with pkgs; [
   git nano htop wget curl fish
 ];
+```
 
 **Palvelut**
 OpenSSH-palvelin päälle →
@@ -37,5 +38,6 @@ services.openssh.enable = true;
   services.jellyfin.enable = true;
   networking.firewall.allowedTCPPorts = [ 8096 ];
   ```
+
 
 
