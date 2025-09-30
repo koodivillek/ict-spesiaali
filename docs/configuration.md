@@ -27,3 +27,10 @@ environment.systemPackages = with pkgs; [
 **Palvelut**
 OpenSSH-palvelin päälle →
 services.openssh.enable = true;
+
+## Jellyfin-palvelu
+- Konfiguraatioon lisättiin:
+  ```nix
+  services.jellyfin.enable = true;
+  networking.firewall.allowedTCPPorts = [ 8096 ];
+
