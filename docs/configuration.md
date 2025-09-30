@@ -3,6 +3,7 @@
 Tähän mennessä olemme muokanneet NixOS:n `configuration.nix` -tiedostoa seuraavasti:
 
 - **Kieliasetukset ja lokaalit**
+```nix
 time.timeZone = "Europe/Helsinki";
 
 i18n.defaultLocale = "en_US.UTF-8";
@@ -17,7 +18,7 @@ i18n.extraLocaleSettings = {
   LC_TELEPHONE = "fi_FI.UTF-8";
   LC_TIME = "fi_FI.UTF-8";
 };
-
+```
 **Asennetut työkalut**
 
 environment.systemPackages = with pkgs; [
@@ -26,11 +27,15 @@ environment.systemPackages = with pkgs; [
 
 **Palvelut**
 OpenSSH-palvelin päälle →
+```nix
 services.openssh.enable = true;
+```
 
 ## Jellyfin-palvelu
 - Konfiguraatioon lisättiin:
   ```nix
   services.jellyfin.enable = true;
   networking.firewall.allowedTCPPorts = [ 8096 ];
+  ```
+
 
