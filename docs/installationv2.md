@@ -20,7 +20,8 @@
 4. Käynnistä virtuaalikone uudelleen.
 
 ## Peruskonfiguraatio ja SSH
-1. Muokkaa tiedostoa `/etc/nixos/configuration.nix`: 
+1. Muokkaa tiedostoa `/etc/nixos/configuration.nix`:
+```nix
    networking.networkmanager.enable = true;
    services.openssh.enable = true;
    time.timeZone = "Europe/Helsinki";
@@ -34,8 +35,10 @@
     fish
    ];
    ```
-2. Ota muutokset käyttöön:  
+3. Ota muutokset käyttöön:  
+  ```bash
    sudo nixos-rebuild switch
+   ```
 4. Avaa VirtualBoxissa porttiohjaus SSH:lle:  
    - Settings → Network → Port Forwarding  
    - **Host Port:** 2222  
@@ -44,6 +47,7 @@
 5. Testaa yhteys Windowsin PowerShellistä:  
    ```powershell
    ssh -p 2222 käyttäjä@127.0.0.1
+   ```
 
 ## GitHub-yhteys
 1. Luo GitHubissa projektille repositorio.  
