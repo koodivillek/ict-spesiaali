@@ -123,7 +123,19 @@
    sudo chmod -R 775 /media/movies
    ```
 
----
+### Snapshotien käyttöönotto
+Lisää configuration.nix tiedostoon:
+```nix
+  services.zfs.autoSnapshot = {
+    enable = true;
+    frequent = 8;  # 8 snapshottia 15 min välein
+    hourly   = 24;
+    daily    = 7;
+    weekly   = 4;
+    monthly  = 3;
+  };
+```
+
 
 ## 7. Samban käyttöönotto (tiedostopalvelin)
 
