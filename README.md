@@ -13,3 +13,4 @@ Tavoitteena rakentaa NixOS-ympäristö VirtualBoxissa, ZFS-datapooli, tiedostopa
 - [ZFS](https://openzfs.org/) – redundantti levyjärjestelmä ja tiedostojärjestelmä  
 - [VirtualBox](https://www.virtualbox.org/) – virtualisointi  
 - [Git & GitHub](https://github.com/) – versionhallinta
+- [Samba](https://www.samba.org/) - tiedostopalvelin
