@@ -92,7 +92,6 @@
   networking.firewall.allowedUDPPorts = [ 137 138 ];
   networking.firewall.allowedTCPPorts = [ 8096 139 445]; # HTTP OLETUSPORTTI JOTEN JELLYFIN NÄKYY
   # OSOITTEESSA http://localhost:8096
-  # (Valinnainen: myös HTTPS jos myöhemmin lisäät SSHL:n)
 
 
   #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
@@ -141,7 +140,7 @@
     # zed.settings = { ZED_NOTIFY_VERBOSE = true; };
   };
 
-  # ZFS automaattinen scrub on teillä jo, lisätään automaattisnapshotit
+  # ZFS automaattiset snapshotit
   services.zfs.autoSnapshot = {
     enable = true;
     frequent = 8;  # 8 snapshottia 15 min välein
@@ -157,7 +156,6 @@
     smbd.enable = true;
     nmbd.enable = true;
 
-    # Uusi NixOS-rakenne: käytä "settings" määrittämään smb.conf
     settings = {
       "global" = {
         "workgroup" = "WORKGROUP";
