@@ -4,6 +4,7 @@
 - **Isäntäkone:** Windows 11  
 - **Virtualisointi:** Oracle VirtualBox  
 - **NixOS ISO:** https://nixos.org/download/
+- **Verkkoasetukset** Bridged Adapter (suora yhteys paikallisverkkoon)
 
 ## VirtualBox-ympäristön luonti
   1. Avaa VirtualBox → **New**  
@@ -39,14 +40,15 @@
   ```bash
    sudo nixos-rebuild switch
    ```
-4. Avaa VirtualBoxissa porttiohjaus SSH:lle:  
-   - Settings → Network → Port Forwarding  
-   - **Host Port:** 2222  
-   - **Guest Port:** 22
-   - **Protocol:** TCP
-5. Testaa yhteys Windowsin PowerShellistä:  
+4. VirtualBox → **Network → Adapter 1 → Bridged Adapter**
+5. Selvitä virtuaalikoneen IP ajamalla NixOS:ssä:
+   ```bash
+   ip -4 addr show | grep inet
+   ```
+   Esimerkki: `192.168..`
+6. Testaa SSH-yhteys Windowsin PowerShellistä:
    ```powershell
-   ssh -p 2222 käyttäjä@127.0.0.1
+   ssh käyttäjä@192.168.1.244
    ```
 
 ## GitHub-yhteys
@@ -67,28 +69,23 @@
    git push origin branchin-nimi
    ```
 
-## Jellyfin-mediapalvelimen asennus
-1. Lisää konfiguraatioon:  
+## Jellyfin-mediapalvelin
+
+1. Lisää konfiguraatioon:
    ```nix
    services.jellyfin.enable = true;
    networking.firewall.allowedTCPPorts = [ 8096 ];
    ```
-2. ota käyttöön:  
+2. Ota käyttöön:
    ```bash
    sudo nixos-rebuild switch
    ```
+3. Avaa selain (Windowsissa):
+   ```
+   http://192.168.x.x:8096
+   ```
+   ja luo admin-käyttäjä.
 
-3. Port Forwarding Virtual Boxiin Jellyfiniä varten
-    - Settings → Network → Port Forwarding  
-   - **Host Port:** 8096  
-   - **Guest Port:** 8096
-   - **Type:** TCP
-   
-5. Avaa selaimessa:  
-   ```
-   http://127.0.0.1:8096
-   ```
-6. Luo Jellyfinissä admin-käyttäjä ja salasana.
 
 ## ZFS:n käyttöönotto
 1. Sammuta virtuaalikone ja lisää kaksi uutta levyä (esim. 20 GB + 20 GB).  
@@ -122,23 +119,68 @@
 7. Luo mediakansio ja oikeudet:  
    ```bash
    sudo mkdir -p /media/movies
-   sudo chown -R mikim:jellyfin /media/movies
+   sudo chown -R käyttäjä:jellyfin /media/movies
    sudo chmod -R 775 /media/movies
    ```
 
 ---
 
-## 7. Videon siirtäminen ja Jellyfinin liittäminen ZFS-pooliin
-1. Siirrä tiedosto Windowsista:  
-   ```powershell
-   scp -P 2222 C:\Users\mikim\Downloads\esimerkki.mp4 käyttäjä@127.0.0.1:/media/movies/
-   ```
-2. Jellyfinissä:  
-   - Dashboard → Libraries → Add Library  
-   - Type: *Movies*  
-   - Path: `/media/movies`  
-   - Tallenna
-3. Testaa toisto selaimessa.  
+## 7. Samban käyttöönotto (tiedostopalvelin)
 
----
+1. Lisää `configuration.nix`-tiedostoon:
+   ```nix
+   services.samba = {
+     enable = true;
+     openFirewall = true;
+     settings = {
+       "workgroup" = "WORKGROUP";
+       "map to guest" = "Bad User";
+       "security" = "user";
+       shares = {
+         "movies" = {
+           "path" = "/media/movies";
+           "browseable" = "yes";
+           "read only" = "no";
+           "guest ok" = "yes";
+           "create mask" = "0664";
+           "directory mask" = "0775";
+           "force user" = "jellyfin";
+           "force group" = "users";
+         };
+       };
+     };
+   };
+   ```
+2. Ota käyttöön:
+   ```bash
+   sudo nixos-rebuild switch
+   ```
+3. Tarkista, että palvelut ovat käynnissä:
+   ```bash
+   sudo systemctl list-units | grep samba
+   ```
+4. Tarkista:
+   ```bash
+   sudo smbclient -L localhost -U%
+   ```
+5. Testaa Windowsista:
+   - Avaa resurssienhallinta
+   - Kirjoita hakukenttään:  
+     ```
+     \192.168.x.x\movies
+     ```
+   - Kansio pitäisi näkyä johon voi tallentaa esim. mp4 tiedostoja
+  
+   ## 8. Jellyfinin integrointi Samban ja ZFS:n kanssa
+
+1. Siirrä Windowsista elokuva:
+   - Kopioi tiedosto `\\192.168.x.x\movies`-kansioon.
+2. Jellyfinissä:
+   - Avaa **Hallinta → Kirjastot → Lisää kirjasto**
+   - **Type:** Movies  
+   - **Path:** `/media/movies`
+3. Päivitä kirjasto:
+   - Klikkaa "kolme pistettä" ja päivitä
+4. Tiedoston tulisi nyt näkyä Jellyfinin etusivulla kirjastossa ja olla toistettavissa.
+
    
