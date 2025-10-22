@@ -1,4 +1,3 @@
-
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
@@ -10,6 +9,7 @@
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
     ];
+
 
   # Bootloader.
   boot.loader.grub.enable = true;
@@ -54,19 +54,19 @@
   console.keyMap = "fi";
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.villek = {
+  users.users.kayttaja = {
     isNormalUser = true;
-    description = "Ville Käsmä";
+    description = "Etunimi Sukunimi";
     extraGroups = [ "wheel" "networkmanager" ];
-packages = with pkgs; [];
-shell = pkgs.fish; #Kommentoi tämä pois jos menee rikki
+    packages = with pkgs; [];
+    shell = pkgs.fish; #Kommentoi tämä pois jos menee rikki
   };
 
-programs.fish.enable = true; #Kommentoi tämä pois jos menee rikki
+  programs.fish.enable = true; #Kommentoi tämä pois jos menee rikki
 
 
   # Enable automatic login for the user.
-  services.getty.autologinUser = "villek";
+  services.getty.autologinUser = "mikim";
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
@@ -78,24 +78,21 @@ programs.fish.enable = true; #Kommentoi tämä pois jos menee rikki
   nano
   htop
   wget
- curl
-fish
-];
+  curl
+  fish
+  zfs
+  ];
 
 
-# Jellyfin mediapalvelin
+  # Jellyfin mediapalvelin
 
-services.jellyfin.enable = true;
+  services.jellyfin.enable = true;
 
-# Portti ja palomuuri
-
-networking.firewall.allowedTCPPorts = [ 8096 ]; # HTTP OLETUSPORTTI JOTEN JELLYFIN NÄKYY
-# OSOITTEESSA http://localhost:8096
-# (Valinnainen: myös HTTPS jos myöhemmin lisäät SSHL:n)
-
-
-
-
+  # Portti ja palomuuri (Jellyfin ja Samba
+  networking.firewall.allowedUDPPorts = [ 137 138 ];
+  networking.firewall.allowedTCPPorts = [ 8096 139 445]; # HTTP OLETUSPORTTI JOTEN JELLYFIN NÄKYY
+  # OSOITTEESSA http://localhost:8096
+  # (Valinnainen: myös HTTPS jos myöhemmin lisäät SSHL:n)
 
 
   #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
@@ -104,7 +101,7 @@ networking.firewall.allowedTCPPorts = [ 8096 ]; # HTTP OLETUSPORTTI JOTEN JELLYF
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
-# programs.gnupg.agent = {
+  # programs.gnupg.agent = {
   #   enable = true;
   #   enableSSHSupport = true;
   # };
@@ -128,7 +125,66 @@ networking.firewall.allowedTCPPorts = [ 8096 ]; # HTTP OLETUSPORTTI JOTEN JELLYF
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "25.05"; # Did you read the comment?
 
-nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
+  # ZFS-tuki
+  boot.supportedFilesystems = [ "zfs" ];
+
+  # ZFS vaatii 8-merk. heksa hostId:n
+  # (ota esim. ensimmäiset 8 merkkiä /etc/machine-id:stä:  head -c8 /etc/machine-id)
+  networking.hostId = "xxxxxxx";  # <- vaihda omaan arvoon
+
+  services.zfs = {
+    autoScrub.enable = true;  # viikoittainen scrub
+    trim.enable = true;       # ok SSD:lle ja useimmille virtuaalilevyille
+    # autoSnapshot.enable = true; # valinnainen
+    # zed.settings = { ZED_NOTIFY_VERBOSE = true; };
+  };
+
+  # ZFS automaattinen scrub on teillä jo, lisätään automaattisnapshotit
+  services.zfs.autoSnapshot = {
+    enable = true;
+    frequent = 8;  # 8 snapshottia 15 min välein
+    hourly   = 24; # 24 tuntia
+    daily    = 7;  # 7 päivää
+    weekly   = 4;  # 4 viikkoa
+    monthly  = 3;  # 3 kuukautta
+  };
+
+# Varmista, että Samba käynnistyy vasta kun ZFS on mountattu
+systemd.services."samba-smbd".after = [ "zfs-mount.service" ];
+systemd.services."samba-smbd".requires = [ "zfs-mount.service" ];
+systemd.services."samba-nmbd".after = [ "zfs-mount.service" ];
+systemd.services."samba-nmbd".requires = [ "zfs-mount.service" ];
+
+systemd.tmpfiles.rules = [
+
+  "d /media/movies 0775 mikim users -"
+
+];
+  # --- SAMBA ---
+  services.samba = {
+    enable = true;
+    smbd.enable = true;
+    nmbd.enable = true;
+
+    # Uusi NixOS-rakenne: käytä "settings" määrittämään smb.conf
+    settings = {
+      "global" = {
+        "workgroup" = "WORKGROUP";
+        "server min protocol" = "SMB2";
+        "map to guest" = "Bad User";
+        "usershare allow guests" = "yes";
+      };
+
+      "movies" = {
+        "path" = "/media/movies";
+        "browseable" = "yes";
+        "read only" = "no";
+        "guest ok" = "yes";
+        "create mask" = "0664";
+        "directory mask" = "0775";
+      };
+    };
+  };
 }
-
