@@ -122,6 +122,10 @@
    sudo chown -R käyttäjä:jellyfin /media/movies
    sudo chmod -R 775 /media/movies
    ```
+8. lisää `configuration.nix` tiedostoon:
+    ```nix
+   boot.zfs.extraPools = [ "media" ];
+   ```
 
 ### Snapshotien käyttöönotto
 Lisää configuration.nix tiedostoon:
@@ -162,6 +166,12 @@ Lisää configuration.nix tiedostoon:
        };
      };
    };
+   # Varmista, että Samba käynnistyy vasta kun ZFS on mountattu
+    systemd.services."samba-smbd".after = [ "zfs-mount.service" ];
+    systemd.services."samba-smbd".requires = [ "zfs-mount.service" ];
+    systemd.services."samba-nmbd".after = [ "zfs-mount.service" ];
+    systemd.services."samba-nmbd".requires = [ "zfs-mount.service" ];
+
    ```
 2. Ota käyttöön:
    ```bash
@@ -192,7 +202,9 @@ Lisää configuration.nix tiedostoon:
    - **Type:** Movies  
    - **Path:** `/media/movies`
 3. Päivitä kirjasto:
-   - Klikkaa "kolme pistettä" ja päivitä
+   - Klikkaa "kolme pistettä" ja päivitä metatiedot
+    <img width="487" height="398" alt="kuva" src="https://github.com/user-attachments/assets/156afaad-ad2d-489a-812b-74a2bae3eae4" />
+
 4. Tiedoston tulisi nyt näkyä Jellyfinin etusivulla kirjastossa ja olla toistettavissa.
 
    
