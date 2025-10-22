@@ -41,12 +41,14 @@
    sudo nixos-rebuild switch
    ```
 4. VirtualBox → **Network → Adapter 1 → Bridged Adapter**
+   <img width="772" height="478" alt="kuva" src="https://github.com/user-attachments/assets/2e1db2ba-cd70-4f05-953c-8414c0356355" />
+
 5. Selvitä virtuaalikoneen IP ajamalla NixOS:ssä:
    ```bash
    ip -4 addr show | grep inet
    ```
    Esimerkki: `192.168..`
-6. Testaa SSH-yhteys Windowsin PowerShellistä:
+7. Testaa SSH-yhteys Windowsin PowerShellistä:
    ```powershell
    ssh käyttäjä@192.168.1.244
    ```
@@ -192,7 +194,11 @@ Lisää configuration.nix tiedostoon:
      \192.168.x.x\movies
      ```
    - Kansio pitäisi näkyä johon voi tallentaa esim. mp4 tiedostoja
-  
+   - Jos kansio näkyy mutta sinne ei voi siirtää mp4 tiedostoja käyttöoikeuksien takia. Aja:
+     ```bash
+     sudo chmod 777 /media/movies
+     ```
+     (Kaikki käyttäjät (myös vieras) voivat kirjoittaa.)
    ## 8. Jellyfinin integrointi Samban ja ZFS:n kanssa
 
 1. Siirrä Windowsista elokuva:
