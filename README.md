@@ -21,7 +21,7 @@ Tavoitteena oli rakentaa **toimiva palvelinympäristö NixOS:in päälle**, joka
 - SSH - etäyhteys NixOS:iin
 
 ## Arkkitehtuuri
-<img width="885" height="729" alt="kuva" src="https://github.com/user-attachments/assets/8c9c0f5d-13d5-4689-abad-74e4f9d984f4" />
+<img width="765" height="740" alt="kuva" src="https://github.com/user-attachments/assets/c3b2f97a-bc26-47d9-8ff2-fcfb7ed7334e" />
 
 ## Tekijät
 - **Miki Meklin**
