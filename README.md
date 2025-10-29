@@ -14,3 +14,6 @@ Tavoitteena rakentaa NixOS-ympäristö VirtualBoxissa, ZFS-datapooli, tiedostopa
 - [VirtualBox](https://www.virtualbox.org/) – virtualisointi  
 - [Git & GitHub](https://github.com/) – versionhallinta
 - [Samba](https://www.samba.org/) - tiedostopalvelin
+
+## Arkkitehtuurikaavio
+<img width="885" height="729" alt="kuva" src="https://github.com/user-attachments/assets/8c9c0f5d-13d5-4689-abad-74e4f9d984f4" />
