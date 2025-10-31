@@ -204,7 +204,7 @@ Lisää configuration.nix tiedostoon:
      (Kaikki käyttäjät (myös vieras) voivat kirjoittaa.)
      <img width="733" height="235" alt="kuva" src="https://github.com/user-attachments/assets/9a22ce4a-35b3-4f01-aa1f-a64053cfdec0" />
     -Kansioon voi "Drag & Drop" mediatiedostoja
-   ## 8. Jellyfinin integrointi Samban ja ZFS:n kanssa
+  ## 8. Jellyfinin integrointi Samban ja ZFS:n kanssa
 
 1. Siirrä Windowsista elokuva:
    - Kopioi tiedosto `\\192.168.x.x\movies`-kansioon.
@@ -212,6 +212,10 @@ Lisää configuration.nix tiedostoon:
    - Avaa **Hallinta → Kirjastot → Lisää kirjasto**
    - **Type:** Movies  
    - **Path:** `/media/movies`
+     <img width="957" height="501" alt="kuva" src="https://github.com/user-attachments/assets/7653fab0-a372-4113-acde-1e9af2a977ce" />
+     <img width="1152" height="716" alt="kuva" src="https://github.com/user-attachments/assets/fcc7277e-554b-43e2-8dfd-9996033ac9f3" />
+
+
 3. Päivitä kirjasto:
    - Klikkaa "kolme pistettä" ja päivitä metatiedot
     <img width="487" height="398" alt="kuva" src="https://github.com/user-attachments/assets/156afaad-ad2d-489a-812b-74a2bae3eae4" />
