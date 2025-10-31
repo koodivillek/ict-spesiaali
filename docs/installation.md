@@ -202,6 +202,8 @@ Lisää configuration.nix tiedostoon:
      sudo chmod 777 /media/movies
      ```
      (Kaikki käyttäjät (myös vieras) voivat kirjoittaa.)
+     <img width="733" height="235" alt="kuva" src="https://github.com/user-attachments/assets/9a22ce4a-35b3-4f01-aa1f-a64053cfdec0" />
+    -Kansioon voi "Drag & Drop" mediatiedostoja
    ## 8. Jellyfinin integrointi Samban ja ZFS:n kanssa
 
 1. Siirrä Windowsista elokuva:
