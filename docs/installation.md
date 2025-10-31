@@ -92,6 +92,9 @@
 ## ZFS:n käyttöönotto
 1. Sammuta virtuaalikone ja lisää kaksi uutta levyä (esim. 20 GB + 20 GB).  
    - VirtualBox → Settings → Storage → Add Hard Disk
+  
+  <img width="1150" height="583" alt="kuva" src="https://github.com/user-attachments/assets/6b7ffdb4-2d11-4f25-8966-bb98242e3a78" />
+
 2. Käynnistä NixOS ja lisää `configuration.nix` tiedostoon:  
    ```nix
    boot.supportedFilesystems = [ "zfs" ];
