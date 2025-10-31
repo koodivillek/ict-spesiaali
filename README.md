@@ -4,7 +4,7 @@ Kurssiprojekti avoimen lähdekoodin ohjelmistokehityksestä ja Linux-ympäristö
 Tavoitteena oli rakentaa **toimiva palvelinympäristö NixOS:in päälle**, joka sisältää:
 - **Jellyfin-mediapalvelimen** elokuvien ja videoiden suoratoistoon selaimen kautta  
 - **Samba-tiedostopalvelimen** tiedostojen jakamiseen Windows-verkossa  
-- **ZFS-levyjärjestelmän** datan redundanssilla ja snapshot-tuesta  
+- **ZFS-levyjärjestelmän** datan redundanssilla ja snapshoteilla 
 - Kaikki tämä toteutettuna **VirtualBox-virtuaalikoneessa**, jossa Windows hostina
 
 ## Sisältö
