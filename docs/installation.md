@@ -50,7 +50,7 @@
    Esimerkki: `192.168..`
 7. Testaa SSH-yhteys Windowsin PowerShellistä:
    ```powershell
-   ssh käyttäjä@192.168.1.244
+   ssh käyttäjä@192.168...
    ```
 
 ## GitHub-yhteys
